@@ -4,16 +4,18 @@ llr = function(x, y, z, omega) {
   return(fits)
 }
 
-# Compute f_hat function with optimized calculations:
+# Compute f_hat function with optimized calculations using sweep:
 compute_f_hat = function(z, x, y, omega) {
-  Wz = make_weight_vector(z, x, omega)  # Now returns a vector
+  Wz = make_weight_vector(z, x, omega)  # Now returns a vector of weights
   X = make_predictor_matrix(x)
   
-  # Replace Wz %*% X and Wz %*% y with optimized calculations
-  WX = apply(X, 2, function(col) Wz * col)
+  # Replace Wz %*% X with sweep function
+  WX = sweep(X, 1, Wz, "*")
+  
+  # Replace Wz %*% y with element-wise multiplication
   Wy = Wz * y
   
-  # Compute the components
+  # Compute the necessary components
   XtWX = t(X) %*% WX
   XtWy = t(X) %*% Wy
   
@@ -24,11 +26,16 @@ compute_f_hat = function(z, x, y, omega) {
 
 # Modify make_weight_matrix to return a vector instead:
 make_weight_vector = function(z, x, omega) {
+  # Define the weight function W(r)
   W = function(r) {
     ifelse(abs(r) < 1, (1 - abs(r)^3)^3, 0)
   }
+  
+  # Compute the weights for each point based on the distance to z
   distances = abs(x - z) / omega
   weights = W(distances)
+  
+  # Return the vector of weights
   return(weights)
 }
 
