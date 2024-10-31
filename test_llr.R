@@ -34,3 +34,5 @@ test_that("make_predictor_matrix works on simple cases", {
   expect_equal(X[, 1], rep(1, n))  # The first column should be all ones
   expect_equal(X[, 2], x)  # The second column should be equal to x
 })
+
+#for git test

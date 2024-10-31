@@ -35,3 +35,5 @@ make_predictor_matrix = function(x) {
   X = cbind(rep(1, n), x)
   return(X)
 }
+
+#for git test
