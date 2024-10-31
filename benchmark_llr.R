@@ -19,3 +19,5 @@ for (i in 1:10){
 # the window around the target point z, meaning more data points will contribute to 
 # the local regression fit for each point, thus effectively averaging out local fluctuations 
 # and reducing the impact of noise, leading to smoother curves.
+
+#for git test
